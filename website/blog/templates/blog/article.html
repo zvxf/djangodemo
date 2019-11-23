@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block body %}
+    <div class="layui-container" style="background-color: #4E5465">
+    <div class="layui-row">
+    <div class="layui-col-md9">
+    <div>
+    <fieldset class="layui-elem-field layui-field-title layui-card">
+  <div class="layui-card-header"><h2>{{ art }}</h2></div>
+            <div class="layui-card-header"> 分类：{{ art.category }}
+    &nbsp;&nbsp;&nbsp;&nbsp;标签：{% for tag in  art.tag.all%}
+            {{ tag }}
+            {% endfor %}</div>
+    <div class="layui-card-header"> <small>作者：{{ art.user }}&nbsp;&nbsp;&nbsp;&nbsp;发布时间：{{ art.date_publish }}&nbsp;&nbsp;&nbsp;&nbsp;浏览数：{{ art.read_count }}</small></div>
+
+
+
+
+  <div class="layui-field-box">
+        <div class="layui-card-body">
+    {{ art.body }}
+        </div>
+  </div>
+</fieldset>
+
+
+
+    </div>
+    <hr/>
+    <div style="width: 500px">
+
+
+    {% for com in com%}
+        <div class="layui-card" >
+  <div class="layui-card-header">{{ com }}</div>
+  <div class="layui-card-body" style="height: 200px">
+ <small> 发布时间：&nbsp;&nbsp;{{ com.date_publish }}&nbsp;&nbsp;&nbsp;&nbsp;
+        用户：&nbsp;&nbsp;{{ com.username }}</small>
+           <hr/>
+   {{ com.body }}
+
+
+
+  </div>
+
+
+</div>
+
+
+
+
+    {% endfor %}
+    </div>
+    <p>
+    <script>
+//注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element;
+
+  //…
+});
+</script>
+    </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    <div>
+    <form method="post" class="layui-form"style="width: 500px" >
+        {% csrf_token %}
+        {{ error }}
+         <div class="layui-form-item">
+    <label class="layui-form-label">评论标题</label>
+    <div class="layui-input-block">
+      <input type="text"  name="com_title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+    </div> </div>
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">评论内容</label>
+    <div class="layui-input-block">
+      <textarea name="com_body" placeholder="请输入内容" class="layui-textarea"></textarea>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+
+    </form>
+    </div>
+    </div>
+       <div class="layui-col-md3">
+      你的内容 3/12
+    </div>
+    </div>
+
+    </div>
+{% endblock %}

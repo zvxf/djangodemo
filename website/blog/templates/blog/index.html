@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block body %}
+    <div class="layui-container">
+
+  <div class="layui-row">
+    <div class="layui-col-md9">
+
+ <div class="layui-card">
+    {%for article in article_list%}
+        <div class="layui-card-header"><h2><a href="{{ article.get_absolute_url }}">{{ article }}</a></h2></div>
+
+        <div class="layui-card-body">
+   <h5>{{ article.desc }}</h5>
+  </div>
+        <h6>
+            &nbsp;&nbsp;&nbsp;&nbsp;<label>作者:</label>&nbsp;&nbsp;{{ article.user }}&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>发布时间:</label>&nbsp;&nbsp;{{ article.date_publish }}&nbsp;&nbsp;&nbsp;&nbsp;
+        <label>浏览数</label>&nbsp;&nbsp;{{ article.read_count }}
+        </h6>
+
+        <h6 class="my-4">
+        &nbsp;&nbsp;&nbsp;&nbsp;<label>分类:&nbsp;&nbsp;</label>{{ article.category }}&nbsp;&nbsp;&nbsp;&nbsp;
+        <label>标签:</label>&nbsp;&nbsp;{% for tag in  article.tag.all%}
+            {{ tag }}
+            {% endfor %}
+          </h6>
+        <hr/>
+    {% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        <div id="page_lay"></div>
+       <span class="current">
+            &nbsp;&nbsp;&nbsp;&nbsp;当前页数： &nbsp;&nbsp;{{ article_list.number }}  &nbsp;&nbsp;&nbsp;&nbsp;总页数：&nbsp;&nbsp;{{ article_list.paginator.num_pages }}.
+        </span>
+{#        {% if article_list.has_previous %}#}
+{#            <a href="?page=1"> first</a>#}
+{#            <a href="?page={{ article_list.previous_page_number }}">previous</a>#}
+{#        {% endif %}#}
+{##}
+{##}
+{##}
+{#        {% if article_list.has_next %}#}
+{#            <a href="?page={{ article_list.next_page_number }}">next</a>#}
+{#            <a href="?page={{ article_list.paginator.num_pages }}">last</a>#}
+{#        {% endif %}#}
+    </span>
+
+
+
+<script>
+layui.use('laypage', function(){
+  var laypage = layui.laypage;
+
+  laypage.render({
+    elem: 'page_lay',
+    count: {{ count}},//总数
+      limit:{{ limit }},//每页显示的条数
+      prev:'{% if article_list.has_previous %}<a href="?page={{ article_list.previous_page_number }}">上一页</a> {% else %}上一页{% endif %}',
+      next:'{% if article_list.has_next %}<a href="?page={{ article_list.next_page_number }}">下一页</a>{% else %}下一页{% endif %}',
+  });
+});
+</script>
+</div>
+    </div>
+    </div>
+      <div class="layui-col-md3">
+      你的内容 3/12
+    </div>
+  </div>
+    </div>
+
+{% endblock %}
